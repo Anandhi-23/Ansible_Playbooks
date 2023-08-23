@@ -1,0 +1,23 @@
+---
+- name: Playbook to install Apache, create index file and start the service
+  hosts: appserver
+  become: yes
+
+  tasks:
+    - name: Update package manager
+      apt:
+        upgrade: 'yes'
+        update_cache: 'yes'
+    - name: Install apache package
+      apt:
+        name: apache2
+        state: present
+    - name: Create index.html
+      copy:
+        content: "Hi, I am {{ansible_hostname}}"
+        dest: /var/www/html/index.html
+    - name: Start and enable apache2
+      service:
+        name: apache2
+        state: started
+        enabled: true
