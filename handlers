@@ -1,0 +1,42 @@
+---
+- name: Playbook to check a package
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: check for package
+      apt:
+        name: apache2
+        state: present
+      register: value_1
+    - name: call handler a
+      shell:
+        cmd: echo ""
+      notify: a
+      when: value_1 is failed
+    - name: check for service
+      service:
+        name: apache2
+        state: started
+      register: value_2
+    - name: call handler b
+      shell:
+        cmd: echo ""
+      notify: b
+      when: value_2 is failed
+    - name: call handler c
+      shell:
+        cmd: echo ""
+      notify: c
+      when: value_1 is failed and value_2 is failed
+
+  handlers:
+    - name: a
+      debug:
+        msg: "Installation failed"
+    - name: b
+      debug:
+        msg: "Service failed"
+    - name: c
+      debug:
+        msg: "Playbook was unsuccessful"
