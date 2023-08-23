@@ -1,0 +1,10 @@
+---
+- name: Playbook to collect host information
+  hosts: appserver
+  become: yes
+
+  tasks:
+    - name: Collect host info
+      copy:
+        content: "{{ansible_hostname}} {{ansible_processor_count}}"
+        dest: "/home/ubuntu/hostinfo.txt"
