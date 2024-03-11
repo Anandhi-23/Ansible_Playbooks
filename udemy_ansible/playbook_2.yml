@@ -1,0 +1,11 @@
+---
+  - name: Playbook for localhost and variables
+    hosts: localhost
+    vars:
+      my_host: 3.144.95.82
+
+    tasks:
+      - name: Adding data to a file
+        lineinfile:
+          path: /home/ubuntu/data.txt
+          line: "My host is {{my_host}}"

@@ -1,0 +1,22 @@
+---
+  - name: Playbook with conditional statement
+    hosts: all
+    become: yes
+
+    tasks:
+      - name: Update package manager
+        apt:
+          upgrade: 'yes'
+          update_cache: 'yes'
+
+      - name: Installation of Nginx in Debian servers
+        apt:
+          name: nginx
+          state: present
+        when: ansible_os_family == "Debian"
+
+      - name: Installation of Nginx in RedHat servers
+        yum:
+          name: nginx
+          state: present
+        when: ansible_os_family == "RedHat"

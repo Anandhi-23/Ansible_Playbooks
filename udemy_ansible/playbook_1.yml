@@ -1,0 +1,10 @@
+---
+  - name: Playbook for localhost
+    hosts: localhost
+
+    tasks:
+      - name: Execute 'date' command
+        command: date
+
+      - name: Display resolv.conf contents
+        command: cat resolv.conf chdir=/etc
