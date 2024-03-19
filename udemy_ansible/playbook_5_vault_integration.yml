@@ -1,0 +1,11 @@
+---
+- name: Playbook with vault
+  hosts: all
+  become: yes
+  vars_files:
+    - secret.yml
+  tasks:
+    - name: Cloning a Git repository
+      git:
+        repo: https://{{ username }}:{{ password }}@github.com/Anandhi-23/test.git
+        dest: /home/ubuntu/clone_folder
