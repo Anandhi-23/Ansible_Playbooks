@@ -1,0 +1,23 @@
+---
+# tasks file for my_role
+- name: Install apache2
+  apt:
+    name: apache2
+    state: present
+  notify: Start apache2
+
+- name: Copy index.html
+  copy:
+    src: /home/ubuntu/index.html
+    dest: /var/www/html
+    mode: 0666
+
+- name: Change default port
+  lineinfile:
+    path: /etc/apache2/ports.conf
+    regexp: '^Listen'
+    insertafter: '# /etc/apache2/sites-enabled/000-default.conf'
+    line: Listen {{port}}
+  when: ansible_os_family == "Debian"
+  notify: Restart apache2
+

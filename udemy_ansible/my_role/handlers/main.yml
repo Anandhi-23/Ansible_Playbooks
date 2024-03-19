@@ -1,0 +1,13 @@
+---
+# handlers file for my_role
+
+- name: Start apache2
+  service:
+    name: apache2
+    state: started
+
+- name: Restart apache2
+  service:
+    name: apache2
+    state: restarted
+
