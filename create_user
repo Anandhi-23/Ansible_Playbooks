@@ -1,0 +1,29 @@
+---
+- name: Playbook to create users
+  hosts: all
+  become: yes
+  
+  vars:
+    users:
+      - username: u1
+        password: "{{ 'pass1' | password_hash('sha512') }}"
+      - username: u2
+        password: "{{ 'pass2' | password_hash('sha512') }}"
+      - username: u3
+        password: "{{ 'pass3' | password_hash('sha512') }}"
+  tasks:
+    - name: Create users
+      user:
+        name: "{{ item.username }}"
+        password: "{{ item.password }}"
+        shell: /bin/bash
+        create_home: yes
+        update_password: on_create
+        state: present
+      register: value
+      loop: "{{ users }}"
+
+    - name: Change password after first login
+      shell: chage -d 0 {{ item.username }}
+      when: value.changed
+      loop: "{{ users }}"
