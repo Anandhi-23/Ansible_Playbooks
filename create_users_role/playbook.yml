@@ -1,0 +1,4 @@
+---
+- name: Playbook to create users
+  hosts: all
+  become: yes

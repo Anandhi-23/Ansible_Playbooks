@@ -1,0 +1,7 @@
+users:
+  - username: u1
+    password: "{{ 'pass1' | password_hash('sha512') }}"
+  - username: u2
+    password: "{{ 'pass2' | password_hash('sha512') }}"
+  - username: u3
+    password: "{{ 'pass3' | password_hash('sha512') }}"

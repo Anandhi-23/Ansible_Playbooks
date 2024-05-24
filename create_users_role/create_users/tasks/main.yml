@@ -1,0 +1,15 @@
+- name: Create users
+  user:
+    name: "{{ item.username }}"
+    password: "{{ item.password }}"
+    shell: /bin/bash
+    create_home: yes
+    update_password: on_create
+    state: present
+  register: value
+  loop: "{{ users }}"
+
+- name: Change password after first login
+  shell: chage -d 0 {{ item.username }}
+  when: value.changed
+  loop: "{{ users }}"
